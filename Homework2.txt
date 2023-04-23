@@ -1,0 +1,111 @@
+1.Имея два отсортированных массива размера m и n соответственно, вам нужно найти элемент, который будет находиться на k-й позиции в конечном отсортированном массиве.
+Массив 1 - 100 112 256 349 770
+Массив 2 - 72 86 113 119 265 445 892
+к = 7
+Вывод : 256
+
+Подробнее о каждом шаге:
+Входные данные: заданные два отсортированных массива arr1 и arr2 размером m и n соответственно, и значение k, которое мы ищем.
+Инициализация переменных: зададим переменные i и j, которые будут указывать на текущие индексы arr1 и arr2, соответственно. Изначально i = j = 0.
+Поиск элемента: с помощью цикла while будем перемещать указатели i и j по массивам arr1 и arr2, пока не достигнем k-го элемента. 
+На каждом шаге будем сравнивать элементы arr1[i] и arr2[j], и перемещать указатель того массива, у которого элемент меньше, чтобы двигаться в 
+сторону k-го элемента. Когда мы достигнем k-го элемента, он будет находиться в переменной result.
+
+Вывод результата: выведем значение result.
+
+Блок-схема решения этой задачи представлена ниже:
+
+ +------------+
+ | Входные    |
+ | данные     |
+ +------------+
+       |
+       v
++--------------------------+
+| i = 0, j = 0, result = 0 |
++--------------------------+
+       |
+       v
++------------------+
+| while i + j < k  |
++------------------+
+       |
+       v
++----------------------------+
+| if arr1[i] < arr2[j]       |
+|     result = arr1[i]       |
+|     i++                    |
+| else                       |
+|     result = arr2[j]       |
+|     j++                    |
++----------------------------+
+       |
+       v
++-------------------+
+| Вывод результата  |
++-------------------+
+
+
+2.
+
+Решите задачу: Расставьте в алфавитном порядке буквы. Разрешается использование техники Разделяй и властвуй. Полученные данные напечатайте.
+На вход строка: "poiuytrewqlkjhgfdsamnbvcxz"
+На выходе должно быть: ABCDEFGHIJKLMNOPQRSTUVWXYZ (с большой буквы)
+
+public class MergeSort {
+    public static String mergeSort(String str) {
+        int length = str.length();
+        if (length < 2) {
+            return str;
+        }
+
+        int middle = length / 2;
+        String left = str.substring(0, middle);
+        String right = str.substring(middle);
+
+        left = mergeSort(left);
+        right = mergeSort(right);
+
+        return merge(left, right);
+    }
+
+    public static String merge(String left, String right) {
+        StringBuilder result = new StringBuilder();
+
+        while (!left.isEmpty() && !right.isEmpty()) {
+            if (left.charAt(0) <= right.charAt(0)) {
+                result.append(left.charAt(0));
+                left = left.substring(1);
+            } else {
+                result.append(right.charAt(0));
+                right = right.substring(1);
+            }
+        }
+
+        while (!left.isEmpty()) {
+            result.append(left.charAt(0));
+            left = left.substring(1);
+        }
+
+        while (!right.isEmpty()) {
+            result.append(right.charAt(0));
+            right = right.substring(1);
+        }
+
+        return result.toString().toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        String str = "poiuytrewqlkjhgfdsamnbvcxz";
+        String sortedStr = mergeSort(str);
+        System.out.println(sortedStr);
+    }
+
+
+
+}
+
+Здесь функция mergeSort принимает строку и разбивает ее на две половины, 
+затем вызывает себя рекурсивно для сортировки каждой половины. 
+Функция merge объединяет две отсортированные половины строки в одну отсортированную строку. 
+В конце мы выводим отсортированную строку в верхнем регистре на экран.

@@ -1,0 +1,168 @@
+1.У вас есть список из n элементов, которые представляют собой оценки студентов по математике. 
+Вам нужно отсортировать этот список в порядке убывания оценок с использованием алгоритма сортировки Merge sort.
+Для решения этой задачи напишите функцию, которая принимает на вход список оценок и возвращает новый список, 
+отсортированный в порядке убывания.
+{3, 8, 1, 9, 4, 2, 7, 6, 5 };
+
+
+ public static void mergeSortDescending(int[] arr, int left, int right) {
+        if (left < right) {
+            int middle = (left + right) / 2;
+            mergeSortDescending(arr, left, middle);
+            mergeSortDescending(arr, middle + 1, right);
+            merge(arr, left, middle, right);
+        }
+    }
+
+    public static void merge(int[] arr, int left, int middle, int right) {
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
+        int[] leftArr = new int[n1];
+        int[] rightArr = new int[n2];
+
+        for (int i = 0; i < n1; i++) {
+            leftArr[i] = arr[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            rightArr[j] = arr[middle + 1 + j];
+        }
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (leftArr[i] >= rightArr[j]) {
+                arr[k] = leftArr[i];
+                i++;
+            } else {
+                arr[k] = rightArr[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            arr[k] = leftArr[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            arr[k] = rightArr[j];
+            j++;
+            k++;
+        }
+    }
+}
+
+
+
+2.
+
+Дан массив объектов типа Person, который содержит поля name (тип String) и age (тип int).
+Необходимо отсортировать этот массив по возрасту в порядке убывания, используя алгоритм Merge sort.
+JAVA
+Person[] people = {
+    new Person("Alice", 25),
+    new Person("Bob", 20),
+    new Person("Charlie", 30),
+    new Person("David", 35),
+    new Person("Eve", 28)
+};
+JAVA SCRIPT
+let people = [
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 20 },
+    { name: "Charlie", age: 30 },
+    { name: "David", age: 35 },
+    { name: "Eve", age: 28 }
+];
+
+
+НА JAVA::
++-----------------------------------------------------------------------------------+
+
+  public static void mergeSort(Person[] people, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(people, left, mid);
+            mergeSort(people, mid + 1, right);
+            merge(people, left, mid, right);
+        }
+    }
+    
+    public static void merge(Person[] people, int left, int mid, int right) {
+        Person[] temp = new Person[right - left + 1];
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
+        
+        while (i <= mid && j <= right) {
+            if (people[i].age >= people[j].age) {
+                temp[k] = people[i];
+                i++;
+            } else {
+                temp[k] = people[j];
+                j++;
+            }
+            k++;
+        }
+        
+        while (i <= mid) {
+            temp[k] = people[i];
+            i++;
+            k++;
+        }
+        
+        while (j <= right) {
+            temp[k] = people[j];
+            j++;
+            k++;
+        }
+        
+        for (k = 0; k < temp.length; k++) {
+            people[left + k] = temp[k];
+        }
+    }
+}
++-----------------------------------------------------------------------------------+
+
+НА JAVASCRIPT::
++----------------------------------------------------------------------+
+function mergeSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const middle = Math.floor(arr.length / 2);
+  const left = arr.slice(0, middle);
+  const right = arr.slice(middle);
+
+  return merge(mergeSort(left), mergeSort(right));
+}
+
+function merge(left, right) {
+  const result = [];
+
+  while (left.length && right.length) {
+    if (left[0].age > right[0].age) {
+      result.push(left.shift());
+    } else {
+      result.push(right.shift());
+    }
+  }
+
+  return result.concat(left, right);
+}
+
+let people = [
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 20 },
+    { name: "Charlie", age: 30 },
+    { name: "David", age: 35 },
+    { name: "Eve", age: 28 }
+];
+
+people = mergeSort(people);
+
+console.log(people);
++----------------------------------------------------------------------+
